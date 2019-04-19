@@ -3,18 +3,14 @@ package trees.Trie;
 import java.util.Scanner;
 
 public class Main {
-	/**
-	 * Unit tests the {@code TrieSET} data type.
-	 *
-	 * @param args the command-line arguments
-	 */
+
 	public static void main(String[] args) {
 		Trie set = new Trie();
 		Scanner sc = new Scanner(System.in);
 		String key = null;
 
 		// Asks for the user input while not
-		// an empty line is provided
+		// an '.' is provided
 		key = sc.next();
 		while (key.charAt(0) != '.') {
 			set.add(key);
