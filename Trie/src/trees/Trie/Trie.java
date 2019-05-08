@@ -50,19 +50,37 @@ public class Trie implements Iterable<String> {
 	 *         otherwise
 	 * @throws IllegalArgumentException if {@code key} is {@code null}
 	 */
-	public boolean contains(String key) {
+
+	public boolean search(String key) {
+
+		/* Não são permitidas buscas nulas */
 		if (key == null) throw new IllegalArgumentException("argument to contains() is null");
 
+		/* chama o método recursivo get que fará a busca na árvore */
 		TrieNode x = get(trieRoot, key, 0);
 
+		/* Chave não encontrada */
 		if (x == null) return false;
 
+		/* se isLeaf() == true então a chave foi encontrada */
 		return x.isLeaf();
 	}
 
 	private TrieNode get(TrieNode x, String key, int trieLevel) {
+		/* Nó nulo a chave não se encontra na árvore */
 		if (x == null) return null;
+
+		/*
+		 * Se a profundidade da árvore (trieLevel) for igual a quantidade de caracteres
+		 * (key.length()) então a chave tem um cadidato a "hit" se este nó for uma folha
+		 * (isLeafe() == true) então se tem um "hit" se não se tem um "miss"
+		 */
 		if (trieLevel == key.length()) return x;
+
+		/*
+		 * Elemento não encontrado, recupera o próximo caractere e reinicia as
+		 * verificações com uma chamada recursiva
+		 */
 		char c = key.charAt(trieLevel);
 		return get(x.getArrSubTries()[c], key, trieLevel + 1);
 	}
@@ -73,35 +91,111 @@ public class Trie implements Iterable<String> {
 	 * @param key the key to add
 	 * @throws IllegalArgumentException if {@code key} is {@code null}
 	 */
-	public void add(String key) {
+
+	public void insert(String key) {
+		/* Não são permitidas inserções nulas */
 		if (key == null) throw new IllegalArgumentException("argument to add() is null");
+
+		/* chama o método recursivo get que fará a inserção na árvore */
 		trieRoot = add(trieRoot, key, 0);
 	}
 
 	private TrieNode add(TrieNode x, String key, int trieLevel) {
-		// if the does not exists create one
+		/*
+		 * Se o nó é nulo então a chave completa naão está na árvore, é necessário criar
+		 * um novo nó para alocar tal caractere, perceba que este nó deve ser do tamanho
+		 * do alfabeto adotado
+		 */
 		if (x == null) x = new TrieNode(constAlphabetSize);
 
-		// The leaf has been reached, return
-		// the recursive calls and one to
-		// key stored
+		/*
+		 * Se a profundidade da árvore (trieLevel) for igual a quantidade de caracteres
+		 * (key.length()) então a chave está completa dentro da árvore;
+		 */
 		if (trieLevel == key.length()) {
 
-			// if the key already exists DO NOT increments keys amount
-			if (!x.isLeaf()) this.amountOfKeysStored++;
+			/*
+			 * Há que se verificar se a chave encontrada NÃO é uma folha. Caso NÃO seja
+			 * incrementa o indicador de quantidade de chaves armazenadas
+			 */
+			if (!x.isLeaf()) {
+				this.amountOfKeysStored++;
+			}
 
-			// Mark it as a leaf
+			/* Marca como folha */
 			x.setLeaf(true);
 
+			/* Retorna a folha inserida */
 			return x;
 		}
 
-		// no leaf has been reached yet
-		// go to or create the next trie level
+		/*
+		 * Se a profundidade da árvore (trieLevel) ainda não for igual a quantidade de
+		 * caracteres (key.length()) então prepara uma chamada recursiva para
+		 * verficação/criação de um novo nó
+		 */
 		char c = key.charAt(trieLevel);
 		x.getArrSubTries()[c] = add(x.getArrSubTries()[c], key, trieLevel + 1);
 
+		/* Retorna a folha inserida */
 		return x;
+	}
+
+	/**
+	 * Removes the key from the set if the key is present.
+	 * 
+	 * @param key the key
+	 * @throws IllegalArgumentException if {@code key} is {@code null}
+	 */
+	public void delete(String key) {
+
+		/* Não são permitidas exclusões nulas */
+		if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+
+		/* chama o método recursivo get que fará a remoção na árvore */
+		trieRoot = delete(trieRoot, key, 0);
+	}
+
+	private TrieNode delete(TrieNode x, String key, int trieLevel) {
+
+		/* Nó nulo a chave não se encontra na árvore */
+		if (x == null) return null;
+
+		/*
+		 * Se a profundidade da árvore (trieLevel) for igual a quantidade de caracteres
+		 * (key.length()) então a chave tem um cadidato a remoção.
+		 */
+		if (trieLevel == key.length()) {
+			/*
+			 * Se este nó for uma folha (isLeafe() == true) então o nó é desmarcado como
+			 * folha e a contagem de item da trie é decrementada
+			 */
+			if (x.isLeaf()) amountOfKeysStored--;
+			x.setLeaf(false);
+		} else {
+
+			/*
+			 * Se a profundidade da árvore (trieLevel) ainda não for igual a quantidade de
+			 * caracteres (key.length()) então prepara uma chamada recursiva para
+			 * verficação/remoção de próximo nó
+			 */
+			char c = key.charAt(trieLevel);
+			x.getArrSubTries()[c] = delete(x.getArrSubTries()[c], key, trieLevel + 1);
+		}
+
+		/*
+		 * Na volta das chamadas recursivas, no momento em que um folha for encontrada a
+		 * deleção da árvore é terminada retornando-se um nó válido
+		 */
+		if (x.isLeaf()) return x;
+
+		/*
+		 * Se o nó não é valido, anula todos os nós abaixo deste e, em seguinda, returna
+		 * um endereço nulo para o nivel acima
+		 */
+		for (int c = 0; c < constAlphabetSize; c++)
+			if (x.getArrSubTries()[c] != null) return x;
+		return null;
 	}
 
 	/**
@@ -217,33 +311,5 @@ public class Trie implements Iterable<String> {
 		if (d == query.length()) return length;
 		char c = query.charAt(d);
 		return longestPrefixOf(x.getArrSubTries()[c], query, d + 1, length);
-	}
-
-	/**
-	 * Removes the key from the set if the key is present.
-	 * 
-	 * @param key the key
-	 * @throws IllegalArgumentException if {@code key} is {@code null}
-	 */
-	public void delete(String key) {
-		if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-		trieRoot = delete(trieRoot, key, 0);
-	}
-
-	private TrieNode delete(TrieNode x, String key, int d) {
-		if (x == null) return null;
-		if (d == key.length()) {
-			if (x.isLeaf()) amountOfKeysStored--;
-			x.setLeaf(false);
-		} else {
-			char c = key.charAt(d);
-			x.getArrSubTries()[c] = delete(x.getArrSubTries()[c], key, d + 1);
-		}
-
-		// remove subtrie rooted at x if it is completely empty
-		if (x.isLeaf()) return x;
-		for (int c = 0; c < constAlphabetSize; c++)
-			if (x.getArrSubTries()[c] != null) return x;
-		return null;
 	}
 }

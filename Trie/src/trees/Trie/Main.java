@@ -13,7 +13,7 @@ public class Main {
 		// an '.' is provided
 		key = sc.next();
 		while (key.charAt(0) != '.') {
-			set.add(key);
+			set.insert(key);
 			key = sc.next();
 		}
 
