@@ -1,4 +1,4 @@
-package patricia;
+package trees.patricia;
 
 public class PatriciaReplacement {
 

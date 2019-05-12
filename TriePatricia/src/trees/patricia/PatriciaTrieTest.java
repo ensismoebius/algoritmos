@@ -1,4 +1,4 @@
-package patricia;
+package trees.patricia;
 
 /* Class PatriciaTrie Test */
 
