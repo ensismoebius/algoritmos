@@ -13,6 +13,7 @@ public class PatriciaTrieTest {
 		pt.insert(50);
 		pt.insert(90);
 		pt.insert(101);
+		pt.insert(215);
 		pt.delete(200);
 	}
 }
