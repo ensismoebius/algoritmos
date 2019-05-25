@@ -1,7 +1,7 @@
 package trees.patricia;
 /* Class PatriciaTrie */
 
-class PatriciaTrie {
+public class PatriciaTrie {
 
 	private PatriciaNode root;
 	private static final int MaxBits = 10;

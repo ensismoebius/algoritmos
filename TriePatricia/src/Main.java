@@ -1,6 +1,9 @@
-package trees.Trie;
+
 
 import java.util.Scanner;
+
+import trees.patricia.*;
+import trees.Trie.Trie;
 
 public class Main {
 
@@ -51,5 +54,18 @@ public class Main {
 			System.out.println(s);
 
 		sc.close();
+		
+		
+		PatriciaTrie pt = new PatriciaTrie();
+		pt.insert(10);
+		pt.insert(200);
+		pt.insert(100);
+		pt.insert(210);
+		pt.insert(50);
+		pt.insert(90);
+		pt.insert(101);
+		pt.insert(215);
+		pt.delete(200);
+	}
 	}
 }
