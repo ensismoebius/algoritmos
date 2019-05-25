@@ -193,7 +193,7 @@ public class PatriciaTrie {
 		// its a branch with two children
 		PatriciaReplacement replacementCandidate = findSuitableReplacementValue(deletedNode);
 
-		// TODO try to finish this shit!!!
+		// TODO enhance this!!!
 		deletedNode.data = replacementCandidate.node.data;
 		replacementCandidate.node.leftChild = deletedNode.leftChild;
 		replacementCandidate.node.rightChild = deletedNode.rightChild;
