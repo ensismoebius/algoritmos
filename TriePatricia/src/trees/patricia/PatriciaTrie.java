@@ -52,7 +52,12 @@ public class PatriciaTrie {
 		String binaryValue = toBinary(value);
 		while (nextNode.bitNumber > currentNode.bitNumber) {
 			currentNode = nextNode;
-			nextNode = isBit1At(binaryValue, nextNode.bitNumber) ? nextNode.rightChild : nextNode.leftChild;
+
+			if (isBit1At(binaryValue, nextNode.bitNumber)) {
+				nextNode = nextNode.rightChild;
+			} else {
+				nextNode = nextNode.leftChild;
+			}
 		}
 
 		return nextNode;

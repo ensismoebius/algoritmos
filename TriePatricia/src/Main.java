@@ -66,6 +66,8 @@ public class Main {
 		pt.insert(101);
 		pt.insert(215);
 		pt.delete(200);
+		
+		pt.search(10);
 	}
 	}
 }
