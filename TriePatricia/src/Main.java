@@ -29,14 +29,6 @@ public class Main {
 			System.out.println();
 		}
 
-		System.out.println("longestPrefixOf(\"am\"):");
-		System.out.println(set.longestPrefixOf("am"));
-		System.out.println();
-
-		System.out.println("longestPrefixOf(\"pe\"):");
-		System.out.println(set.longestPrefixOf("pe"));
-		System.out.println();
-
 		System.out.println("keysWithPrefix(\"a\"):");
 		for (String s : set.keysWithPrefix("a"))
 			System.out.println(s);
@@ -50,7 +42,7 @@ public class Main {
 		System.out.println();
 
 		System.out.println("keysThatMatch(\"a..r\"):");
-		for (String s : set.keysThatMatch("...do"))
+		for (String s : set.keysThatMatch("...ar"))
 			System.out.println(s);
 
 		sc.close();
@@ -68,6 +60,5 @@ public class Main {
 		pt.delete(200);
 		
 		pt.search(10);
-	}
 	}
 }

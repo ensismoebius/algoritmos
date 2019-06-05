@@ -284,32 +284,4 @@ public class Trie implements Iterable<String> {
 			prefix.deleteCharAt(prefix.length() - 1);
 		}
 	}
-
-	/**
-	 * Returns the string in the set that is the longest prefix of {@code query}, or
-	 * {@code null}, if no such string.
-	 * 
-	 * @param query the query string
-	 * @return the string in the set that is the longest prefix of {@code query}, or
-	 *         {@code null} if no such string
-	 * @throws IllegalArgumentException if {@code query} is {@code null}
-	 */
-	public String longestPrefixOf(String query) {
-		if (query == null) throw new IllegalArgumentException("argument to longestPrefixOf() is null");
-		int length = longestPrefixOf(trieRoot, query, 0, -1);
-		if (length == -1) return null;
-		return query.substring(0, length);
-	}
-
-	// returns the length of the longest string key in the subtrie
-	// rooted at x that is a prefix of the query string,
-	// assuming the first d character match and we have already
-	// found a prefix match of length length
-	private int longestPrefixOf(TrieNode x, String query, int d, int length) {
-		if (x == null) return length;
-		if (x.isLeaf()) length = d;
-		if (d == query.length()) return length;
-		char c = query.charAt(d);
-		return longestPrefixOf(x.getArrSubTries()[c], query, d + 1, length);
-	}
 }
